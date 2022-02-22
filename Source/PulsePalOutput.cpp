@@ -41,15 +41,13 @@ PulsePalOutput::PulsePalOutput()
     : GenericProcessor ("Pulse Pal")
     , channelToChange (0)
 {
-    setProcessorType (PROCESSOR_TYPE_SINK);
-
     // Init Pulse Pal
     pulsePal.initialize();
     pulsePal.setDefaultParameters();
     pulsePal.updateDisplay("PulsePal Output GUI Connected","Click for menu");
     pulsePalVersion = pulsePal.getFirmwareVersion();
 
-    // Init Pulsa Pal parameter arrays
+    // Init Pulse Pal parameter arrays
     m_isBiphasic = vector<int>(PULSEPALCHANNELS, 0);
     m_phase1Duration = vector<float>(PULSEPALCHANNELS, DEF_PHASE_DURATION);
     m_phase2Duration = vector<float>(PULSEPALCHANNELS, DEF_PHASE_DURATION);
@@ -160,12 +158,12 @@ void PulsePalOutput::setParameter (int parameterIndex, float newValue)
 
 void PulsePalOutput::process (AudioSampleBuffer& buffer)
 {
-    checkForEvents ();
+    checkForEvents();
 }
 
 void PulsePalOutput::addEventSource(EventSources s)
 {
-    sources.add (s);
+    sources.add(s);
 }
 
 void PulsePalOutput::clearEventSources()
@@ -460,50 +458,47 @@ void PulsePalOutput::saveCustomParametersToXml(XmlElement *parentElement)
     }
 }
 
-void PulsePalOutput::loadCustomParametersFromXml ()
+void PulsePalOutput::loadCustomParametersFromXml (XmlElement* xml)
 {
-    if (parametersAsXml != nullptr)
+   forEachXmlChildElement (*xml, mainNode)
     {
-        forEachXmlChildElement (*parametersAsXml, mainNode)
+        if (mainNode->hasTagName ("PulsePalOutput"))
         {
-            if (mainNode->hasTagName ("PulsePalOutput"))
+            forEachXmlChildElement(*mainNode, chan)
             {
-                forEachXmlChildElement(*mainNode, chan)
-                {
-                    int id = chan->getIntAttribute("id");
-                    int biphasic = chan->getIntAttribute("biphasic");
-                    double phase1 = chan->getDoubleAttribute("phase1");
-                    double phase2 = chan->getDoubleAttribute("phase2");
-                    double interphase = chan->getDoubleAttribute("interphase");
-                    double voltage1 = chan->getDoubleAttribute("voltage1");
-                    double voltage2 = chan->getDoubleAttribute("voltage2");
-                    double resting = chan->getDoubleAttribute("restingvoltage");
-                    double interpulse = chan->getDoubleAttribute("interpulse");
-                    double burst = chan->getDoubleAttribute("burstduration");
-                    double interburst = chan->getDoubleAttribute("interburst");
-                    double trainduration = chan->getDoubleAttribute("trainduration");
-                    double traindelay = chan->getDoubleAttribute("traindelay");
-                    int link21 = chan->getIntAttribute("link2trigger1");
-                    int link22 = chan->getIntAttribute("link2trigger2");
-                    int trigger = chan->getIntAttribute("triggermode");
-					int contd = chan->getIntAttribute("continuous");
-                    m_isBiphasic[id] = biphasic;
-                    m_phase1Duration[id] = phase1;
-                    m_phase2Duration[id] = phase2;
-                    m_interPhaseInterval[id] = interphase;
-                    m_phase1Voltage[id] = voltage1;
-                    m_phase2Voltage[id] = voltage2;
-                    m_restingVoltage[id] = resting;
-                    m_interPulseInterval[id] = interpulse;
-                    m_burstDuration[id] = burst;
-                    m_interBurstInterval[id] = interburst;
-                    m_trainDuration[id] = trainduration;
-                    m_trainDelay[id] = traindelay;
-                    m_linkTriggerChannel1[id] = link21;
-                    m_linkTriggerChannel2[id] = link22;
-                    m_triggerMode[id] = trigger;
-					m_continuous[id] = contd;
-                }
+                int id = chan->getIntAttribute("id");
+                int biphasic = chan->getIntAttribute("biphasic");
+                double phase1 = chan->getDoubleAttribute("phase1");
+                double phase2 = chan->getDoubleAttribute("phase2");
+                double interphase = chan->getDoubleAttribute("interphase");
+                double voltage1 = chan->getDoubleAttribute("voltage1");
+                double voltage2 = chan->getDoubleAttribute("voltage2");
+                double resting = chan->getDoubleAttribute("restingvoltage");
+                double interpulse = chan->getDoubleAttribute("interpulse");
+                double burst = chan->getDoubleAttribute("burstduration");
+                double interburst = chan->getDoubleAttribute("interburst");
+                double trainduration = chan->getDoubleAttribute("trainduration");
+                double traindelay = chan->getDoubleAttribute("traindelay");
+                int link21 = chan->getIntAttribute("link2trigger1");
+                int link22 = chan->getIntAttribute("link2trigger2");
+                int trigger = chan->getIntAttribute("triggermode");
+				int contd = chan->getIntAttribute("continuous");
+                m_isBiphasic[id] = biphasic;
+                m_phase1Duration[id] = phase1;
+                m_phase2Duration[id] = phase2;
+                m_interPhaseInterval[id] = interphase;
+                m_phase1Voltage[id] = voltage1;
+                m_phase2Voltage[id] = voltage2;
+                m_restingVoltage[id] = resting;
+                m_interPulseInterval[id] = interpulse;
+                m_burstDuration[id] = burst;
+                m_interBurstInterval[id] = interburst;
+                m_trainDuration[id] = trainduration;
+                m_trainDelay[id] = traindelay;
+                m_linkTriggerChannel1[id] = link21;
+                m_linkTriggerChannel2[id] = link22;
+                m_triggerMode[id] = trigger;
+				m_continuous[id] = contd;
             }
         }
     }

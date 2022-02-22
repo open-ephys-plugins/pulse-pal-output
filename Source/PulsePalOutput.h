@@ -72,25 +72,30 @@ struct EventSources
 class PulsePalOutput : public GenericProcessor
 {
 public:
+
     /** The class constructor, used to connect to PulsePal initialize any members. */
     PulsePalOutput();
+
     /** The class destructor, used to deallocate memory */
     ~PulsePalOutput();
-    /**
-     * @brief GenericProcessor member functions:
-     * createEditor(): creates PulsePalOutputEditor
-     * process(): checks for events
-     * handleEvent(): triggers or gates Pulse Pal stimulation when received TTL events
-     *                correspond to trigger or gate selected channels
-     * saveCustomParameterToXml(): saves all Pulse Pal setting to settings
-     * loadCustomParameterFromXml(): loads all Pulse Pal setting from settings
-     */
+
+    /** Creates PulsePalOutputEditor*/
     AudioProcessorEditor* createEditor() override;
+
+    /** Check for incoming events */
     void process (AudioSampleBuffer& buffer) override;
+
+    /** Updates parameters used inside the process() method */
     void setParameter (int parameterIndex, float newValue) override;
-    void handleEvent (const EventChannel* eventInfo, const MidiMessage& event, int sampleNum) override;
-    void saveCustomParametersToXml(XmlElement *parentElement);
-    void loadCustomParametersFromXml();
+
+    /** Responds to incoming events */
+    void handleEvent (const EventChannel* eventInfo, const EventPacket& event, int sampleNum) override;
+
+    /** Saves parameters */
+    void saveCustomParametersToXml(XmlElement *parentElement) override;
+
+    /** Loads parameters*/
+    void loadCustomParametersFromXml(XmlElement* xml) override;
     /**
      * @brief updatePulsePal sets parameters of channel chan to the Pulse Pal
      * @param chan: channel number (0-1-2-3) to update

@@ -52,7 +52,11 @@ class PulsePalOutputCanvas : public Visualizer,
         public KeyListener
 {
 public:
+
+    /** Constructor */
     PulsePalOutputCanvas(PulsePalOutput* PulsePalOutput);
+
+    /** Destructor */
     ~PulsePalOutputCanvas();
 
     void paint (Graphics&);
@@ -75,8 +79,6 @@ public:
     virtual void refresh();
     virtual void beginAnimation();
     virtual void endAnimation();
-    virtual void setParameter(int, float);
-    virtual void setParameter(int, int, int, float);
 
 private:
     PulsePalOutput* processor;

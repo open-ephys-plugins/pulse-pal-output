@@ -44,9 +44,17 @@ class PulsePalOutputEditor : public VisualizerEditor
 
 {
 public:
-    PulsePalOutputEditor(GenericProcessor* parentNode, PulsePal* pp, bool useDefaultParameterEditors);
+
+    /** Constructor */
+    PulsePalOutputEditor(GenericProcessor* parentNode, PulsePal* pp);
+
+    /** Destructor */
     virtual ~PulsePalOutputEditor();
+
+    /** Updates settings*/
     void updateSettings();
+
+    /** Creates the parameter editor canvas*/
     Visualizer* createNewCanvas();
 
 private:

@@ -66,11 +66,11 @@ float PulsePalOutputCanvas::my_round(float x)
 void PulsePalOutputCanvas::paint (Graphics& g)
 {
 
-    g.setColour(labelBackgroundColour); // backbackround color
+    g.setColour(labelBackgroundColour); // background color
     g.fillRect(0, 0, getWidth(), getHeight());
 
 
-    // Check pulse Pal connection
+    // Check Pulse Pal connection
     if (processor->getPulsePalVersion() > 0)
         pulsePalLabel->setText(String("Pulse Pal: ") +=  String("CONNECTED"), dontSendNotification);
     else
@@ -723,12 +723,4 @@ void PulsePalOutputCanvas::endAnimation()
 void PulsePalOutputCanvas::update()
 {
 
-}
-
-void PulsePalOutputCanvas::setParameter(int, float)
-{
-}
-
-void PulsePalOutputCanvas::setParameter(int, int, int, float)
-{
 }

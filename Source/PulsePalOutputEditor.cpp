@@ -28,8 +28,8 @@
 #include "PulsePalOutput.h"
 #include "serial/PulsePal.h"
 
-PulsePalOutputEditor::PulsePalOutputEditor(GenericProcessor* parentNode, PulsePal* pp, bool useDefaultParameterEditors=true)
-    : VisualizerEditor(parentNode, useDefaultParameterEditors), pulsePal(pp)
+PulsePalOutputEditor::PulsePalOutputEditor(GenericProcessor* parentNode, PulsePal* pp)
+    : VisualizerEditor(parentNode), pulsePal(pp)
 
 {
     tabText = "PulsePal";
