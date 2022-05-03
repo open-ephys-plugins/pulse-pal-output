@@ -36,7 +36,7 @@
 #define __PULSEPALOUTPUT_H_A8BF66D6__
 
 #include <ProcessorHeaders.h>
-#include "PulsePalOutputEditor.h"
+
 #include "serial/PulsePal.h"
 
 #define DEF_PHASE_DURATION 1
@@ -83,13 +83,13 @@ public:
     AudioProcessorEditor* createEditor() override;
 
     /** Check for incoming events */
-    void process (AudioSampleBuffer& buffer) override;
+    void process (AudioBuffer<float>& buffer) override;
 
     /** Updates parameters used inside the process() method */
     void setParameter (int parameterIndex, float newValue) override;
 
     /** Responds to incoming events */
-    void handleEvent (const EventChannel* eventInfo, const EventPacket& event, int sampleNum) override;
+    void handleTTLEvent (TTLEventPtr event) override;
 
     /** Saves parameters */
     void saveCustomParametersToXml(XmlElement *parentElement) override;

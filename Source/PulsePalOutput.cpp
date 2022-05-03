@@ -36,6 +36,7 @@
 
 #include "PulsePalOutput.h"
 
+#include "PulsePalOutputEditor.h"
 
 PulsePalOutput::PulsePalOutput()
     : GenericProcessor ("Pulse Pal")
@@ -84,40 +85,39 @@ AudioProcessorEditor* PulsePalOutput::createEditor()
     return editor.get();
 }
 
-void PulsePalOutput::handleEvent (const EventChannel* eventInfo, const MidiMessage& event, int sampleNum)
+void PulsePalOutput::handleTTLEvent (TTLEventPtr ttl)
 {
-    if (Event::getEventType(event) == EventChannel::TTL)
-    {
-        TTLEventPtr ttl = TTLEvent::deserializeFromMessage(event, eventInfo);
-        const int state         = ttl->getState() ? 1 : 0;
-        const int eventId       = ttl->getSourceIndex();
-        const int sourceId      = ttl->getSourceID();
-        const int eventChannel  = ttl->getChannel();
 
-        for (int i = 0; i < PULSEPALCHANNELS; ++i)
+    const int state         = ttl->getState() ? 1 : 0;
+    const int eventId       = ttl->getSourceIndex();
+    const int sourceId      = ttl->getSourceID();
+    const int eventChannel  = ttl->getChannel();
+
+    for (int i = 0; i < PULSEPALCHANNELS; ++i)
+    {
+        
+        if (channelTtlTrigger[i] != -1)
         {
-            if (channelTtlTrigger[i] != -1)
+            EventSources s = sources.getReference (channelTtlTrigger[i]);
+            if (eventId == s.eventIndex && sourceId == s.sourceId
+                    && eventChannel == s.channel && state)
             {
-                EventSources s = sources.getReference (channelTtlTrigger[i]);
-                if (eventId == s.eventIndex && sourceId == s.sourceId
-                        && eventChannel == s.channel && state)
-                {
-                    std::cout << "Trigger " << i + 1 << std::endl;
-                    pulsePal.triggerChannel (i + 1);
-                }
+                std::cout << "Trigger " << i + 1 << std::endl;
+                pulsePal.triggerChannel (i + 1);
             }
-            if (channelTtlGate[i] != -1)
+        }
+        
+        if (channelTtlGate[i] != -1)
+        {
+            EventSources s = sources.getReference (channelTtlGate[i]);
+            if (eventId == s.eventIndex && sourceId == s.sourceId
+                    && eventChannel == s.channel)
             {
-                EventSources s = sources.getReference (channelTtlGate[i]);
-                if (eventId == s.eventIndex && sourceId == s.sourceId
-                        && eventChannel == s.channel)
-                {
-                    std::cout << "Gate " << i + 1 << std::endl;
-                    if (state == 1)
-                        channelState.set (i, true);
-                    else
-                        channelState.set (i, false);
-                }
+                std::cout << "Gate " << i + 1 << std::endl;
+                if (state == 1)
+                    channelState.set (i, true);
+                else
+                    channelState.set (i, false);
             }
         }
     }
@@ -156,7 +156,7 @@ void PulsePalOutput::setParameter (int parameterIndex, float newValue)
     }
 }
 
-void PulsePalOutput::process (AudioSampleBuffer& buffer)
+void PulsePalOutput::process (AudioBuffer<float>& buffer)
 {
     checkForEvents();
 }

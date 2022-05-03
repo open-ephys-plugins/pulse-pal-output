@@ -29,12 +29,9 @@
 #include "serial/PulsePal.h"
 
 PulsePalOutputEditor::PulsePalOutputEditor(GenericProcessor* parentNode, PulsePal* pp)
-    : VisualizerEditor(parentNode), pulsePal(pp)
+    : VisualizerEditor(parentNode, "Pulse Pal", 460), pulsePal(pp)
 
 {
-    tabText = "PulsePal";
-    desiredWidth = 460;
-
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
         ChannelTriggerInterface* cti = new ChannelTriggerInterface(pp, (PulsePalOutput*) getProcessor(), i);
@@ -167,18 +164,20 @@ void ChannelTriggerInterface::updateSources()
     int nextItemTrig = 2;
     int nextItemGate = 2;
     int nEvents = processor->getTotalEventChannels();
+    
     for (int i = 0; i < nEvents; i++)
     {
-        const EventChannel* event = processor->getEventChannel(i);
-        if (event->getChannelType() == EventChannel::TTL)
+        const EventChannel* eventChannel = processor->getEventChannel(i);
+        
+        if (eventChannel->getType() == EventChannel::TTL)
         {
-            s.eventIndex = event->getSourceIndex();
-            s.sourceId = event->getSourceNodeID();
-            int nChans = event->getNumChannels();
+            s.eventIndex = eventChannel->getSourceIndex();
+            s.sourceId = eventChannel->getSourceNodeID();
+            int nChans = eventChannel->getNumChannels();
             for (int c = 0; c < nChans; c++)
             {
                 s.channel = c;
-                name = event->getSourceName() + " " + String(event->getSourceIndex() + 1) + " (TTL" + String(c+1) + ")";
+                name = event->getSourceName() + " " + String(eventChannel->getSourceIndex() + 1) + " (TTL" + String(c+1) + ")";
                 processor->addEventSource(s);
                 triggerSelector->addItem(name, nextItemTrig++);
                 gateSelector->addItem(name, nextItemGate++);

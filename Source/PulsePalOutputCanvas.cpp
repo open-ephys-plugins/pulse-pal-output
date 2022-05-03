@@ -702,25 +702,3 @@ void PulsePalOutputCanvas::initLabels()
     }
 
 }
-
-
-void PulsePalOutputCanvas::refreshState()
-{
-}
-
-void PulsePalOutputCanvas::refresh()
-{
-}
-
-void PulsePalOutputCanvas::beginAnimation()
-{
-}
-
-void PulsePalOutputCanvas::endAnimation()
-{
-}
-
-void PulsePalOutputCanvas::update()
-{
-
-}

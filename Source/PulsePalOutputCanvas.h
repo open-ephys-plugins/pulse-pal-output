@@ -59,26 +59,25 @@ public:
     /** Destructor */
     ~PulsePalOutputCanvas();
 
-    void paint (Graphics&);
-    void resized();
+    void paint (Graphics&) override;
+    void resized() override;
     void initButtons();
     void initLabels();
     void updateLabels(int i);
 
+    /** Get pointer to the processor */
     PulsePalOutput* getProcessor();
 
-    // listener interfaces
-    virtual bool keyPressed(const KeyPress &key, Component *originatingComponent);
-    virtual void buttonClicked(Button* button);
+    /** Listener methods */
+    virtual bool keyPressed(const KeyPress &key, Component *originatingComponent) override;
+    virtual void buttonClicked(Button* button) override;
     virtual void labelTextChanged(Label *label) override;
     virtual void comboBoxChanged(ComboBox *combobox) override;
 
-    // visualizer interface
-    virtual void refreshState();
-    virtual void update();
-    virtual void refresh();
-    virtual void beginAnimation();
-    virtual void endAnimation();
+    /** Visualizer methods */
+    void refreshState() { }
+    void update() { }
+    void refresh() { }
 
 private:
     PulsePalOutput* processor;
