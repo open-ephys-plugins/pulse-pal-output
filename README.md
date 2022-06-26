@@ -2,7 +2,7 @@
 
 ![pulse-pal-output-screenshot](Resources/pulse-pal.png)
 
-Triggers the outputs of a [Pulse Pal](https://sanworks.io/shop/viewproduct?productID=1102) an open-source pulse train generator developed and sold by [Sanworks](https://sanworks.io/index.php).
+Triggers the outputs of a [Pulse Pal](https://sanworks.io/shop/viewproduct?productID=1102), an open-source pulse train generator developed and sold by [Sanworks](https://sanworks.io/index.php).
 
 ## Installation
 
