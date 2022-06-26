@@ -80,4 +80,4 @@ Running the `ALL_BUILD` scheme will compile the plugin; running the `INSTALL` sc
 
 ## Attribution
 
-This plugin was originally developed by Mark Schatza in the Translational NeuroEngineering lab at the University of Minnesota. It is now being maintained by the Allen Institute.
+This plugin was originally developed by Josh Siegle at MIT. It was significantly enhanced by  Alessio Buccino, Mikkel Lepperod, and Svenn-Arne Dragly at the University of Oslo. It is now being maintained at the Allen Institute.
