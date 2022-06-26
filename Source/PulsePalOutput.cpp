@@ -41,12 +41,13 @@
 PulsePalOutput::PulsePalOutput()
     : GenericProcessor ("Pulse Pal")
     , channelToChange (0)
+    , pulsePalVersion (0)
 {
     // Init Pulse Pal
     pulsePal.initialize();
     pulsePal.setDefaultParameters();
-    pulsePal.updateDisplay("PulsePal Output GUI Connected","Click for menu");
-    pulsePalVersion = pulsePal.getFirmwareVersion();
+    pulsePal.updateDisplay("Connected to GUI"," Click for menu");
+    pulsePalVersion = pulsePal.getFirmwareVersion(); // if >0, Pulse Pal is connected
 
     // Init Pulse Pal parameter arrays
     m_isBiphasic = vector<int>(PULSEPALCHANNELS, 0);
@@ -76,22 +77,33 @@ PulsePalOutput::PulsePalOutput()
 
 PulsePalOutput::~PulsePalOutput()
 {
-    pulsePal.updateDisplay ("PULSE PAL v1.0","Click for menu");
+    if (pulsePalVersion > 0)
+    {
+        String versionString = " PULSE PAL v" + String(pulsePalVersion) + ".0";
+        pulsePal.updateDisplay(versionString.toStdString(), " Click for menu");
+    }
+        
+}
+
+void PulsePalOutput::updateSettings()
+{
+    if (pulsePalVersion == 0)
+        isEnabled = false;
 }
 
 AudioProcessorEditor* PulsePalOutput::createEditor()
 {
-    editor = std::make_unique<PulsePalOutputEditor> (this, &pulsePal, true);
+    editor = std::make_unique<PulsePalOutputEditor> (this, &pulsePal);
     return editor.get();
 }
 
 void PulsePalOutput::handleTTLEvent (TTLEventPtr ttl)
 {
 
-    const int state         = ttl->getState() ? 1 : 0;
-    const int eventId       = ttl->getSourceIndex();
-    const int sourceId      = ttl->getSourceID();
-    const int eventChannel  = ttl->getChannel();
+    const int state          = ttl->getState() ? 1 : 0;
+    const int eventSourceId  = ttl->getChannelInfo()->getSourceNodeId();
+    const String eventStream = ttl->getChannelInfo()->getStreamName();
+    const int eventLine      = ttl->getLine();
 
     for (int i = 0; i < PULSEPALCHANNELS; ++i)
     {
@@ -99,10 +111,12 @@ void PulsePalOutput::handleTTLEvent (TTLEventPtr ttl)
         if (channelTtlTrigger[i] != -1)
         {
             EventSources s = sources.getReference (channelTtlTrigger[i]);
-            if (eventId == s.eventIndex && sourceId == s.sourceId
-                    && eventChannel == s.channel && state)
+            if (eventSourceId == s.sourceNodeId
+                && eventStream.equalsIgnoreCase(s.streamName)
+                && eventLine == s.ttlLine 
+                && state)
             {
-                std::cout << "Trigger " << i + 1 << std::endl;
+                LOGD("Pulse Pal Trigger ", i + 1);
                 pulsePal.triggerChannel (i + 1);
             }
         }
@@ -110,10 +124,12 @@ void PulsePalOutput::handleTTLEvent (TTLEventPtr ttl)
         if (channelTtlGate[i] != -1)
         {
             EventSources s = sources.getReference (channelTtlGate[i]);
-            if (eventId == s.eventIndex && sourceId == s.sourceId
-                    && eventChannel == s.channel)
+            if (eventSourceId == s.sourceNodeId
+                && eventStream.equalsIgnoreCase(s.streamName)
+                && eventLine == s.ttlLine
+                && state)
             {
-                std::cout << "Gate " << i + 1 << std::endl;
+                LOGD("Pulse Pal Gate ", i + 1);
                 if (state == 1)
                     channelState.set (i, true);
                 else
@@ -126,7 +142,7 @@ void PulsePalOutput::handleTTLEvent (TTLEventPtr ttl)
 
 void PulsePalOutput::setParameter (int parameterIndex, float newValue)
 {
-    editor->updateParameterButtons (parameterIndex);
+    //editor->updateParameterButtons (parameterIndex);
 
     switch (parameterIndex)
     {

@@ -60,8 +60,12 @@ public:
 private:
     OwnedArray<ChannelTriggerInterface> channelTriggerInterfaces;
     PulsePal* pulsePal;
-    void saveCustomParameters(XmlElement* xml);
-    void loadCustomParameters(XmlElement* xml);
+
+    /** Save channel trigger params */
+    void saveVisualizerEditorParameters(XmlElement* xml) override;
+
+    /** Load channel trigger params */
+    void loadVisualizerEditorParameters(XmlElement* xml) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PulsePalOutputEditor);
 };
@@ -72,10 +76,15 @@ class ChannelTriggerInterface : public Component,
     public ComboBox::Listener
 {
 public:
+
+    /** Constructor */
     ChannelTriggerInterface(PulsePal*, PulsePalOutput*, int channelNum);
+
+    /** Destrutor */
     ~ChannelTriggerInterface();
 
     void paint(Graphics& g);
+
     /**
      * @brief updateSources checks sources available from the Pulse Pal processor
      *        and updates the trigger and gate comboboxes

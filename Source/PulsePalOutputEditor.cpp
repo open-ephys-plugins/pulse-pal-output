@@ -29,14 +29,14 @@
 #include "serial/PulsePal.h"
 
 PulsePalOutputEditor::PulsePalOutputEditor(GenericProcessor* parentNode, PulsePal* pp)
-    : VisualizerEditor(parentNode, "Pulse Pal", 460), pulsePal(pp)
+    : VisualizerEditor(parentNode, "Pulse Pal", 445), pulsePal(pp)
 
 {
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
         ChannelTriggerInterface* cti = new ChannelTriggerInterface(pp, (PulsePalOutput*) getProcessor(), i);
         channelTriggerInterfaces.add(cti);
-        cti->setBounds(5+115*(i), 30, 100, 90);
+        cti->setBounds(10+110*(i), 30, 100, 90);
         addAndMakeVisible(cti);
     }
 }
@@ -59,7 +59,7 @@ void PulsePalOutputEditor::updateSettings()
     }
 }
 
-void PulsePalOutputEditor::saveCustomParameters(XmlElement* xml)
+void PulsePalOutputEditor::saveVisualizerEditorParameters(XmlElement* xml)
 {
 
     xml->setAttribute("Type", "PulsePalOutputEditor");
@@ -75,7 +75,7 @@ void PulsePalOutputEditor::saveCustomParameters(XmlElement* xml)
 
 }
 
-void PulsePalOutputEditor::loadCustomParameters(XmlElement* xml)
+void PulsePalOutputEditor::loadVisualizerEditorParameters(XmlElement* xml)
 {
 
     forEachXmlChildElement(*xml, xmlNode)
@@ -96,7 +96,11 @@ void PulsePalOutputEditor::loadCustomParameters(XmlElement* xml)
 //-----------------------------------------------
 
 ChannelTriggerInterface::ChannelTriggerInterface(PulsePal* pp, PulsePalOutput* ppo, int chan)
-    : pulsePal(pp), processor(ppo), isEnabled(true), channelNumber(chan), name(String(chan))
+    : pulsePal(pp)
+    , processor(ppo)
+    , isEnabled(true)
+    , channelNumber(chan)
+    , name(String(chan + 1))
     , m_triggerSelected(1)
     , m_gateSelected(1)
 {
@@ -163,21 +167,20 @@ void ChannelTriggerInterface::updateSources()
     gateSelector->addItem("Gate", 1);
     int nextItemTrig = 2;
     int nextItemGate = 2;
-    int nEvents = processor->getTotalEventChannels();
-    
-    for (int i = 0; i < nEvents; i++)
+
+    for (int i = 0; i < processor->getTotalEventChannels(); i++)
     {
         const EventChannel* eventChannel = processor->getEventChannel(i);
         
         if (eventChannel->getType() == EventChannel::TTL)
         {
-            s.eventIndex = eventChannel->getSourceIndex();
-            s.sourceId = eventChannel->getSourceNodeID();
-            int nChans = eventChannel->getNumChannels();
-            for (int c = 0; c < nChans; c++)
+            s.sourceNodeId = eventChannel->getSourceNodeId();
+            s.streamName = eventChannel->getStreamName();
+
+            for (int line = 0; line < eventChannel->getMaxTTLBits(); line++)
             {
-                s.channel = c;
-                name = event->getSourceName() + " " + String(eventChannel->getSourceIndex() + 1) + " (TTL" + String(c+1) + ")";
+                s.ttlLine = line;
+                name = String(eventChannel->getSourceNodeId()) + " (" + s.streamName + ") - TTL" + String(line+1);
                 processor->addEventSource(s);
                 triggerSelector->addItem(name, nextItemTrig++);
                 gateSelector->addItem(name, nextItemGate++);

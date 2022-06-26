@@ -48,8 +48,7 @@
 class PulsePalOutputCanvas : public Visualizer,
         public Button::Listener,
         public ComboBox::Listener,
-        public Label::Listener,
-        public KeyListener
+        public Label::Listener
 {
 public:
 
@@ -57,24 +56,32 @@ public:
     PulsePalOutputCanvas(PulsePalOutput* PulsePalOutput);
 
     /** Destructor */
-    ~PulsePalOutputCanvas();
+    ~PulsePalOutputCanvas() { }
 
+    /** Draw canvas background */
     void paint (Graphics&) override;
+
+    /** Set position of sub-components */
     void resized() override;
+
+    /** Create buttons */
     void initButtons();
+
+    /** Create labels */
     void initLabels();
+
+    /** Ensure parameters match processor */
     void updateLabels(int i);
 
     /** Get pointer to the processor */
     PulsePalOutput* getProcessor();
 
     /** Listener methods */
-    virtual bool keyPressed(const KeyPress &key, Component *originatingComponent) override;
     virtual void buttonClicked(Button* button) override;
     virtual void labelTextChanged(Label *label) override;
     virtual void comboBoxChanged(ComboBox *combobox) override;
 
-    /** Visualizer methods */
+    /** Visualizer methods (not used) */
     void refreshState() { }
     void update() { }
     void refresh() { }

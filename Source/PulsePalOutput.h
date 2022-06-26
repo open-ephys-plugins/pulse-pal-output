@@ -58,9 +58,9 @@
  */
 struct EventSources
 {
-    unsigned int eventIndex;
-    unsigned int sourceId;
-    unsigned int channel;
+    String streamName;
+    unsigned int sourceNodeId;
+    unsigned int ttlLine;
 };
 
 /**
@@ -81,6 +81,9 @@ public:
 
     /** Creates PulsePalOutputEditor*/
     AudioProcessorEditor* createEditor() override;
+
+    /** Deactivates plugin if Pulse Pal is not found */
+    void updateSettings() override;
 
     /** Check for incoming events */
     void process (AudioBuffer<float>& buffer) override;
@@ -198,6 +201,7 @@ private:
     vector<int> m_linkTriggerChannel2;
     vector<int> m_triggerMode;
 	vector<int> m_continuous;
+
     // Pulse Pal instance and version
     PulsePal pulsePal;
     uint32_t pulsePalVersion;

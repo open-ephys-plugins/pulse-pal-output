@@ -41,20 +41,11 @@ PulsePalOutputCanvas::PulsePalOutputCanvas(PulsePalOutput* PulsePalOutput)
     , labelBackgroundColour(Colour(100,100,100))
 
 {
-    // Setup buttons
+
     initButtons();
-    // Setup Labels
+
     initLabels();
 
-    addKeyListener(this);
-
-    startCallbacks();
-    update();
-}
-
-PulsePalOutputCanvas::~PulsePalOutputCanvas()
-{
-    TopLevelWindow::getTopLevelWindow(0)->removeKeyListener(this);
 }
 
 float PulsePalOutputCanvas::my_round(float x)
@@ -69,17 +60,21 @@ void PulsePalOutputCanvas::paint (Graphics& g)
     g.setColour(labelBackgroundColour); // background color
     g.fillRect(0, 0, getWidth(), getHeight());
 
-
     // Check Pulse Pal connection
     if (processor->getPulsePalVersion() > 0)
-        pulsePalLabel->setText(String("Pulse Pal: ") +=  String("CONNECTED"), dontSendNotification);
+    {
+        pulsePalLabel->setText(String("Pulse Pal: ") += String("CONNECTED"), dontSendNotification);
+    }
     else
-        pulsePalLabel->setText(String("Pulse Pal: ") +=  String("NOT CONNECTED"), dontSendNotification);
+    {
+        pulsePalLabel->setText(String("Pulse Pal: ") += String("NOT CONNECTED"), dontSendNotification);
+    }
+        
 
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
         g.setColour(Colours::grey);
-        g.fillRoundedRectangle(0.005*getWidth() + 0.25*i*getWidth(), 0.1*getHeight(), 0.23*getWidth(), 0.89*getHeight(), 4.0f);
+        g.fillRoundedRectangle(0.005*getWidth() + 0.25*i*getWidth(), 0.1*getHeight(), 0.23*getWidth(), 0.885*getHeight(), 4.0f);
     }
 
 }
@@ -90,7 +85,7 @@ void PulsePalOutputCanvas::resized()
 
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
-        channelLabel[i]->setBounds(0.01*getWidth() + 0.25*i*getWidth(), 0.1*getHeight(), 0.1*getWidth(),0.04*getHeight());
+        channelLabel[i]->setBounds(0.01*getWidth() + 0.25*i*getWidth(), 0.11*getHeight(), 0.2*getWidth(),0.04*getHeight());
 
         phase1Label[i]->setBounds(0.01*getWidth() + 0.25*i*getWidth(), 0.2*getHeight(), 0.1*getWidth(),0.04*getHeight());
         phase1EditLabel[i]->setBounds(0.13*getWidth() + 0.25*i*getWidth(), 0.2*getHeight(), 0.1*getWidth(),0.04*getHeight());
@@ -126,7 +121,6 @@ void PulsePalOutputCanvas::resized()
 		continuousButton[i]->setBounds(0.12*getWidth() + 0.25*i*getWidth(), 0.91*getHeight(), 0.11*getWidth(), 0.06*getHeight());
     }
 
-    refresh();
 }
 
 void PulsePalOutputCanvas::buttonClicked(Button* button)
@@ -239,10 +233,6 @@ void PulsePalOutputCanvas::buttonClicked(Button* button)
     repaint();
 }
 
-bool PulsePalOutputCanvas::keyPressed(const KeyPress &key, Component *originatingComponent)
-{
-	return false;
-}
 
 void PulsePalOutputCanvas::labelTextChanged(Label *label)
 {
