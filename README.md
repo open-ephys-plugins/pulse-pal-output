@@ -2,7 +2,7 @@
 
 ![pulse-pal-output-screenshot](Resources/pulse-pal.png)
 
-Triggers the outputs of a Pulse Pal, an open-source stimulation device.
+Triggers the outputs of a [Pulse Pal](https://sanworks.io/shop/viewproduct?productID=1102) an open-source pulse train generator developed and sold by [Sanworks](https://sanworks.io/index.php).
 
 ## Installation
 
@@ -80,4 +80,4 @@ Running the `ALL_BUILD` scheme will compile the plugin; running the `INSTALL` sc
 
 ## Attribution
 
-This plugin was originally developed by Josh Siegle at MIT. It was significantly enhanced by  Alessio Buccino, Mikkel Lepperod, and Svenn-Arne Dragly at the University of Oslo. It is now being maintained at the Allen Institute.
+This plugin was originally developed by Josh Siegle at MIT. It was significantly enhanced by Michelle Fogerson at Stanford and Alessio Buccino, Mikkel Lepperod, and Svenn-Arne Dragly at the University of Oslo. It is now being maintained at the Allen Institute.
