@@ -108,7 +108,7 @@ void PulsePalOutput::handleTTLEvent (TTLEventPtr ttl)
     for (int i = 0; i < PULSEPALCHANNELS; ++i)
     {
         
-        if (channelTtlTrigger[i] != -1)
+        if (channelTtlTrigger[i] != -1 && channelState[i])
         {
             EventSources s = sources.getReference (channelTtlTrigger[i]);
             if (eventSourceId == s.sourceNodeId
@@ -126,10 +126,9 @@ void PulsePalOutput::handleTTLEvent (TTLEventPtr ttl)
             EventSources s = sources.getReference (channelTtlGate[i]);
             if (eventSourceId == s.sourceNodeId
                 && eventStream.equalsIgnoreCase(s.streamName)
-                && eventLine == s.ttlLine
-                && state)
+                && eventLine == s.ttlLine)
             {
-                LOGD("Pulse Pal Gate ", i + 1);
+                LOGD("Pulse Pal Gate ", i + 1, ": ", state);
                 if (state == 1)
                     channelState.set (i, true);
                 else
@@ -148,14 +147,17 @@ void PulsePalOutput::setParameter (int parameterIndex, float newValue)
     {
     case 0:
         channelToChange = (int) newValue;
+        LOGD("Changing active channel to ", newValue);
         break;
 
     case 1:
         channelTtlTrigger.set (channelToChange, (int) newValue);
+        LOGD("Changing trigger line to ", newValue);
         break;
 
     case 2:
         channelTtlGate.set (channelToChange, (int) newValue);
+        LOGD("Changing gate line to ", newValue);
 
         if (newValue < 0)
         {
