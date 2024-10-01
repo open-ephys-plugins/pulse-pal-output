@@ -105,7 +105,7 @@ ChannelTriggerInterface::ChannelTriggerInterface(PulsePal* pp, PulsePalOutput* p
     , m_gateSelected(1)
 {
 
-    triggerButton = new UtilityButton("trigger", Font("Small Text", 10, Font::plain));
+    triggerButton = new UtilityButton("trigger");
     triggerButton->addListener(this);
     triggerButton->setRadius(3.0f);
     triggerButton->setBounds(5, 5, 90, 20);

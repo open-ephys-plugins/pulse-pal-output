@@ -410,41 +410,41 @@ void PulsePalOutputCanvas::initButtons()
 
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
-        ScopedPointer<UtilityButton> biph = new UtilityButton("biphasic", Font("Small Text", 20, Font::plain));
+        ScopedPointer<UtilityButton> biph = new UtilityButton("biphasic");
         biph->setRadius(3.0f);
         biph->addListener(this);
         biph->setClickingTogglesState(true);
         biphasicButton[i] = biph;
         addAndMakeVisible(biphasicButton[i]);
 
-        ScopedPointer<UtilityButton> burst = new UtilityButton("burst", Font("Small Text", 20, Font::plain));
+        ScopedPointer<UtilityButton> burst = new UtilityButton("burst");
         burst->setRadius(3.0f);
         burst->addListener(this);
         burst->setClickingTogglesState(true);
         burstButton[i] = burst;
         addAndMakeVisible(burstButton[i]);
 
-        ScopedPointer<UtilityButton> link21 = new UtilityButton("link trig 1", Font("Small Text", 20, Font::plain));
+        ScopedPointer<UtilityButton> link21 = new UtilityButton("link trig 1");
         link21->setRadius(3.0f);
         link21->addListener(this);
         link21->setClickingTogglesState(true);
         link2tr1Button[i] = link21;
         addAndMakeVisible(link2tr1Button[i]);
 
-        ScopedPointer<UtilityButton> link22 = new UtilityButton("link trig 2", Font("Small Text", 20, Font::plain));
+        ScopedPointer<UtilityButton> link22 = new UtilityButton("link trig 2");
         link22->setRadius(3.0f);
         link22->addListener(this);
         link22->setClickingTogglesState(true);
         link2tr2Button[i] = link22;
         addAndMakeVisible(link2tr2Button[i]);
 
-        ScopedPointer<UtilityButton> ttl = new UtilityButton("ttl", Font("Small Text", 20, Font::plain));
+        ScopedPointer<UtilityButton> ttl = new UtilityButton("ttl");
         ttl->setRadius(3.0f);
         ttl->addListener(this);
         ttlButton[i] = ttl;
         addAndMakeVisible(ttlButton[i]);
 
-		ScopedPointer<UtilityButton> continuous = new UtilityButton("continuous", Font("Small Text", 20, Font::plain));;
+		ScopedPointer<UtilityButton> continuous = new UtilityButton("continuous");
 		continuous->setRadius(3.0f);
 		continuous->addListener(this);
 		continuous->setClickingTogglesState(true);
