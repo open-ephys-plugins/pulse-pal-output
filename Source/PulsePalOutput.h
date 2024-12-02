@@ -72,7 +72,6 @@ struct EventSources
 class PulsePalOutput : public GenericProcessor
 {
 public:
-
     /** The class constructor, used to connect to PulsePal initialize any members. */
     PulsePalOutput();
 
@@ -95,16 +94,16 @@ public:
     void handleTTLEvent (TTLEventPtr event) override;
 
     /** Saves parameters */
-    void saveCustomParametersToXml(XmlElement *parentElement) override;
+    void saveCustomParametersToXml (XmlElement* parentElement) override;
 
     /** Loads parameters*/
-    void loadCustomParametersFromXml(XmlElement* xml) override;
+    void loadCustomParametersFromXml (XmlElement* xml) override;
     /**
      * @brief updatePulsePal sets parameters of channel chan to the Pulse Pal
      * @param chan: channel number (0-1-2-3) to update
      * @return true if Pulse Pal is connected, false otherwise
      */
-    bool updatePulsePal(int chan);
+    bool updatePulsePal (int chan);
     /**
      * @brief getPulsePalVersion returns connected Pulse Pal version
      * @return  Pulse Pal version
@@ -114,44 +113,44 @@ public:
      * @brief get-set for all Pulse Pal parameters
      * @param chan: channel number (0-1-2-3)
      */
-    bool getIsBiphasic(int chan) const;
-    float getPhase1Duration(int chan) const;
-    float getPhase2Duration(int chan) const;
-    float getInterPhaseInt(int chan) const;
-    float getVoltage1(int chan) const;
-    float getVoltage2(int chan) const;
-    float getRestingVoltage(int chan) const;
-    float getInterPulseInt(int chan) const;
-    float getBurstDuration(int chan) const;
-    float getInterBurstInt(int chan) const;
-    float getTrainDuration(int chan) const;
-    float getTrainDelay(int chan) const;
-    int getLinkTriggerChannel1(int chan) const;
-    int getLinkTriggerChannel2(int chan) const;
-    int getTriggerMode(int chan) const;
-	int getContinuous(int chan) const;
-    void setIsBiphasic(int chan, bool isBiphasic);
-    void setNegFirst(int chan, bool negFirst);
-    void setPhase1Duration(int chan, float phaseDuration);
-    void setPhase2Duration(int chan, float phaseDuration);
-    void setInterPhaseInt(int chan, float interPhaseInt);
-    void setVoltage1(int chan, float voltage);
-    void setVoltage2(int chan, float voltage);
-    void setRestingVoltage(int chan, float voltage);
-    void setInterPulseInt(int chan, float interPulseInt);
-    void setBurstDuration(int chan, float burstDuration);
-    void setInterBurstInt(int chan, float interBurstInt);
-    void setTrainDuration(int chan, float trainDuration);
-    void setTrainDelay(int chan, float trainDelay);
-    void setLinkTriggerChannel1(int chan, int link);
-    void setLinkTriggerChannel2(int chan, int link);
-    void setTriggerMode(int chan, int mode);  
-	void setContinuous(int chan, int continued);
+    bool getIsBiphasic (int chan) const;
+    float getPhase1Duration (int chan) const;
+    float getPhase2Duration (int chan) const;
+    float getInterPhaseInt (int chan) const;
+    float getVoltage1 (int chan) const;
+    float getVoltage2 (int chan) const;
+    float getRestingVoltage (int chan) const;
+    float getInterPulseInt (int chan) const;
+    float getBurstDuration (int chan) const;
+    float getInterBurstInt (int chan) const;
+    float getTrainDuration (int chan) const;
+    float getTrainDelay (int chan) const;
+    int getLinkTriggerChannel1 (int chan) const;
+    int getLinkTriggerChannel2 (int chan) const;
+    int getTriggerMode (int chan) const;
+    int getContinuous (int chan) const;
+    void setIsBiphasic (int chan, bool isBiphasic);
+    void setNegFirst (int chan, bool negFirst);
+    void setPhase1Duration (int chan, float phaseDuration);
+    void setPhase2Duration (int chan, float phaseDuration);
+    void setInterPhaseInt (int chan, float interPhaseInt);
+    void setVoltage1 (int chan, float voltage);
+    void setVoltage2 (int chan, float voltage);
+    void setRestingVoltage (int chan, float voltage);
+    void setInterPulseInt (int chan, float interPulseInt);
+    void setBurstDuration (int chan, float burstDuration);
+    void setInterBurstInt (int chan, float interBurstInt);
+    void setTrainDuration (int chan, float trainDuration);
+    void setTrainDelay (int chan, float trainDelay);
+    void setLinkTriggerChannel1 (int chan, int link);
+    void setLinkTriggerChannel2 (int chan, int link);
+    void setTriggerMode (int chan, int mode);
+    void setContinuous (int chan, int continued);
     /**
      * @brief setTTLsettings sets channel chan to TTL settings
      * @param chan: channel number (0-1-2-3)
      */
-    void setTTLsettings(int chan);
+    void setTTLsettings (int chan);
     /**
      * @brief checkParameterConsistency checks if the Pulse Pal parameters
      *        for channel chan are consistent
@@ -159,7 +158,7 @@ public:
      * @param chan: channel number (0-1-2-3)
      * @return true if parameters are consistent, false otherwise
      */
-    bool checkParameterConsistency(int chan);
+    bool checkParameterConsistency (int chan);
     /**
      * @brief adjustParameters adjusts consistency of parameters by setting
      *        burst and train duration based on pulse duration.
@@ -167,12 +166,12 @@ public:
      *        duration and interval, then inter pulse duration and pulse)
      * @param chan: channel number (0-1-2-3)
      */
-    void adjustParameters(int chan);
+    void adjustParameters (int chan);
     /**
      * @brief addEventSource adds a TTLevent source to the sources array
      * @param s: new source to add to the sources array
      */
-    void addEventSource(EventSources s);
+    void addEventSource (EventSources s);
     /**
      * @brief clearEventSources clears sources array
      */
@@ -200,7 +199,7 @@ private:
     vector<int> m_linkTriggerChannel1;
     vector<int> m_linkTriggerChannel2;
     vector<int> m_triggerMode;
-	vector<int> m_continuous;
+    vector<int> m_continuous;
 
     // Pulse Pal instance and version
     PulsePal pulsePal;
@@ -208,4 +207,4 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PulsePalOutput);
 };
-#endif  // __PULSEPALOUTPUT_H_A8BF66D6__
+#endif // __PULSEPALOUTPUT_H_A8BF66D6__

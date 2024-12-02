@@ -44,9 +44,8 @@ class PulsePalOutputEditor : public VisualizerEditor
 
 {
 public:
-
     /** Constructor */
-    PulsePalOutputEditor(GenericProcessor* parentNode, PulsePal* pp);
+    PulsePalOutputEditor (GenericProcessor* parentNode, PulsePal* pp);
 
     /** Destructor */
     virtual ~PulsePalOutputEditor();
@@ -62,28 +61,26 @@ private:
     PulsePal* pulsePal;
 
     /** Save channel trigger params */
-    void saveVisualizerEditorParameters(XmlElement* xml) override;
+    void saveVisualizerEditorParameters (XmlElement* xml) override;
 
     /** Load channel trigger params */
-    void loadVisualizerEditorParameters(XmlElement* xml) override;
+    void loadVisualizerEditorParameters (XmlElement* xml) override;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PulsePalOutputEditor);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PulsePalOutputEditor);
 };
 
-
 class ChannelTriggerInterface : public Component,
-    public Button::Listener,
-    public ComboBox::Listener
+                                public Button::Listener,
+                                public ComboBox::Listener
 {
 public:
-
     /** Constructor */
-    ChannelTriggerInterface(PulsePal*, PulsePalOutput*, int channelNum);
+    ChannelTriggerInterface (PulsePal*, PulsePalOutput*, int channelNum);
 
     /** Destrutor */
     ~ChannelTriggerInterface();
 
-    void paint(Graphics& g);
+    void paint (Graphics& g);
 
     /**
      * @brief updateSources checks sources available from the Pulse Pal processor
@@ -91,13 +88,13 @@ public:
      */
     void updateSources();
 
-    void setTriggerChannel(int chan);
-    void setGateChannel(int chan);
+    void setTriggerChannel (int chan);
+    void setGateChannel (int chan);
     int getTriggerChannel();
     int getGateChannel();
 
-    void buttonClicked(Button* button);
-    void comboBoxChanged(ComboBox* comboBoxThatHasChanged);
+    void buttonClicked (Button* button);
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
 
 private:
     PulsePal* pulsePal;
@@ -114,6 +111,4 @@ private:
     ScopedPointer<ComboBox> gateSelector;
 };
 
-
-
-#endif  // __PULSEPALOUTPUTEDITOR_H_BB5F0ECC__
+#endif // __PULSEPALOUTPUTEDITOR_H_BB5F0ECC__

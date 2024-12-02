@@ -32,9 +32,9 @@
 #ifndef PULSEPALOUTPUTCANVAS_H
 #define PULSEPALOUTPUTCANVAS_H
 
-#include <VisualizerWindowHeaders.h>
-#include "PulsePalOutputEditor.h"
 #include "PulsePalOutput.h"
+#include "PulsePalOutputEditor.h"
+#include <VisualizerWindowHeaders.h>
 
 /**
 
@@ -46,17 +46,16 @@
 */
 
 class PulsePalOutputCanvas : public Visualizer,
-        public Button::Listener,
-        public ComboBox::Listener,
-        public Label::Listener
+                             public Button::Listener,
+                             public ComboBox::Listener,
+                             public Label::Listener
 {
 public:
-
     /** Constructor */
-    PulsePalOutputCanvas(PulsePalOutput* PulsePalOutput);
+    PulsePalOutputCanvas (PulsePalOutput* PulsePalOutput);
 
     /** Destructor */
-    ~PulsePalOutputCanvas() { }
+    ~PulsePalOutputCanvas() {}
 
     /** Draw canvas background */
     void paint (Graphics&) override;
@@ -71,20 +70,20 @@ public:
     void initLabels();
 
     /** Ensure parameters match processor */
-    void updateLabels(int i);
+    void updateLabels (int i);
 
     /** Get pointer to the processor */
     PulsePalOutput* getProcessor();
 
     /** Listener methods */
-    virtual void buttonClicked(Button* button) override;
-    virtual void labelTextChanged(Label *label) override;
-    virtual void comboBoxChanged(ComboBox *combobox) override;
+    virtual void buttonClicked (Button* button) override;
+    virtual void labelTextChanged (Label* label) override;
+    virtual void comboBoxChanged (ComboBox* combobox) override;
 
     /** Visualizer methods (not used) */
-    void refreshState() { }
-    void update() { }
-    void refresh() { }
+    void refreshState() {}
+    void update() {}
+    void refresh() {}
 
 private:
     PulsePalOutput* processor;
@@ -98,7 +97,7 @@ private:
     ScopedPointer<UtilityButton> ttlButton[PULSEPALCHANNELS];
     ScopedPointer<UtilityButton> link2tr1Button[PULSEPALCHANNELS];
     ScopedPointer<UtilityButton> link2tr2Button[PULSEPALCHANNELS];
-	ScopedPointer<UtilityButton> continuousButton[PULSEPALCHANNELS];
+    ScopedPointer<UtilityButton> continuousButton[PULSEPALCHANNELS];
     ScopedPointer<ComboBox> triggerMode[PULSEPALCHANNELS];
 
     ScopedPointer<Label> channelLabel[PULSEPALCHANNELS];
@@ -131,10 +130,9 @@ private:
     Colour labelColour;
     Colour labelTextColour;
     Colour labelBackgroundColour;
-    float my_round(float x);
+    float my_round (float x);
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PulsePalOutputCanvas);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PulsePalOutputCanvas);
 };
-
 
 #endif // PULSEPALOUTPUTCANVAS_H
