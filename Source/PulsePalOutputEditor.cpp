@@ -121,14 +121,14 @@ ChannelTriggerInterface::~ChannelTriggerInterface()
 
 void ChannelTriggerInterface::paint (Graphics& g)
 {
-    g.setColour (Colours::lightgrey);
+    g.setColour (findColour(ThemeColours::componentBackground));
 
     g.fillRoundedRectangle (0, 0, getWidth(), getHeight(), 4.0f);
 
     if (isEnabled)
-        g.setColour (Colours::black);
+        g.setColour (findColour (ThemeColours::defaultText));
     else
-        g.setColour (Colours::grey);
+        g.setColour (findColour (ThemeColours::defaultText).withAlpha(0.2f));
 
     g.setFont (Font ("Small Text", 10, Font::plain));
 
