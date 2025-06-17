@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __PULSEPAL_H_F2B7B63E__
 #define __PULSEPAL_H_F2B7B63E__
 
+#include <ProcessorHeaders.h>
+
 #include <string.h>
 
 //#include "ofSerial.h"

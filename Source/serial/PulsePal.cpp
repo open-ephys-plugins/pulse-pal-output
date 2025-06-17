@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-// Originally programmed by Josh Seigle as part of the Open Ephys GUI, <http://open-ephys.org>
+// Originally programmed by Josh Siegle as part of the Open Ephys GUI, <http://open-ephys.org>
 // Modified by Joshua Sanders where indicated in comments below)
 // Modified by Alessio Buccino where inficated in comments
 
@@ -79,7 +79,7 @@ void PulsePal::setDefaultParameters()
 
 void PulsePal::initialize()
 {
-    std::cout << "Searching for Pulse Pal..." << std::endl;
+    LOGC("Searching for Pulse Pal...");
 
     //
     // lsusb shows Device 104: ID 1eaf:0004
@@ -100,13 +100,31 @@ void PulsePal::initialize()
         path = devices[i].getDevicePath();
         name = devices[i].getDeviceName();
 
-        serial.setup (id, 115200);
-        firmwareVersion = getFirmwareVersionFromPulsePal();
-        if (firmwareVersion > 0)
+        LOGD ("Checking ", name, " on ", path);
+
+        string prefix = "Arduino Due";
+
+        if (name.compare(0, prefix.length(), prefix) == 0)
         {
-            std::cout << "Found Pulse Pal with firmware version " << firmwareVersion << std::endl;
-            foundDevice = true;
+
+            LOGC ("Found Arduino Due on ", path, ", checking for valid Pulse Pal firmware.");
+
+            bool ok = serial.setup (id, 115200);
+
+            if (ok)
+            {
+                firmwareVersion = getFirmwareVersionFromPulsePal();
+                if (firmwareVersion > 0)
+                {
+                    foundDevice = true;
+                }
+            }
         }
+        else
+        {
+            LOGD ("Unexpected device name.");
+        }
+        
     }
 
     if (foundDevice)
@@ -114,20 +132,20 @@ void PulsePal::initialize()
 
         if (firmwareVersion < 20)
         {
-            std::cout << "Pulse Pal 1 was found on port " << name << "." << std::endl;
+            LOGC ("  Pulse Pal v1 found on ", path);
         }
         else if (firmwareVersion < 40)
         {
-            std::cout << "Pulse Pal 2 was found on port " << name << "." << std::endl;
+            LOGC ("  Pulse Pal v2 found on ", path);
         }
         else
         {
-            std::cout << "Unknown firmware version returned. Please update your Pulse Pal software." << std::endl;
+            LOGC ("  Unknown firmware version returned. Please update your Pulse Pal firmware.");
         }
     }
     else
     {
-        std::cout << "Error: Could not find a device." << std::endl;
+        LOGC ("No Pulse Pal found, is one connected?");
     }
 }
 
@@ -147,11 +165,30 @@ uint32_t PulsePal::getFirmwareVersionFromPulsePal() // JS 1/30/2014
     uint32_t firmwareVersion = 0;
     uint8_t responseBytes[5] = { 0 };
     uint8_t handshakeMessage[2] = { 213, 72 };
+
+    uint8_t testMessage[1] = {
+        0x01,
+    };
+    auto start = Time::currentTimeMillis();
+    serial.writeBytes (testMessage, 1);
+    auto end = Time::currentTimeMillis();
+
+    if ((end - start) > 1000)
+    {
+        LOGC("Serial write took too long — device may not be responding.");
+        return 0;
+    }
+
+    serial.flush();
+    LOGD ("Writing handshake message");
     serial.writeBytes (handshakeMessage, 2);
+    LOGD ("Wait 100 ms");
     Sleep (100);
+    LOGD ("Reading response");
     serial.readBytes (responseBytes, 5);
     firmwareVersion = makeLong (responseBytes[4], responseBytes[3], responseBytes[2], responseBytes[1]);
     return firmwareVersion;
+
 }
 
 void PulsePal::setBiphasic (uint8_t channel, bool isBiphasic)
@@ -379,7 +416,7 @@ void PulsePal::setClientIDString (string idString)
     }
     else
     {
-        std::cout << "ClientID must be 6 characters. ClientID NOT set." << std::endl;
+        LOGC ("Pulse Pal ClientID must be 6 characters. ClientID NOT set.");
     }
 }
 
