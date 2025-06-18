@@ -102,12 +102,13 @@ void PulsePal::initialize()
 
         LOGD ("Checking ", name, " on ", path);
 
-        string prefix = "Arduino Due";
-
-        if (name.compare(0, prefix.length(), prefix) == 0)
+        if (devices[i].getDeviceName().compare(0, 6, "ttyACM") == 0 ||  // Linux Communications Device Class
+            devices[i].getDeviceName().compare(0, 6, "ttyUSB") == 0 ||  // Linux FTDI chip
+            devices[i].getDeviceName().compare(0, 7, "tty.usb") == 0 || // macOS
+            devices[i].getDeviceName().compare(0, 7, "Arduino") == 0)   // Windows with driver installed
         {
 
-            LOGC ("Found Arduino Due on ", path, ", checking for valid Pulse Pal firmware.");
+            LOGC ("Found Arduino on ", path, ", checking for valid Pulse Pal firmware.");
 
             bool ok = serial.setup (id, 115200);
 
@@ -175,7 +176,7 @@ uint32_t PulsePal::getFirmwareVersionFromPulsePal() // JS 1/30/2014
 
     if ((end - start) > 1000)
     {
-        LOGC("Serial write took too long — device may not be responding.");
+        LOGC("Serial write took too long ï¿½ device may not be responding.");
         return 0;
     }
 
