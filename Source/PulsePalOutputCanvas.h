@@ -76,9 +76,11 @@ public:
     PulsePalOutput* getProcessor();
 
     /** Listener methods */
-    virtual void buttonClicked (Button* button) override;
-    virtual void labelTextChanged (Label* label) override;
-    virtual void comboBoxChanged (ComboBox* combobox) override;
+    void buttonClicked (Button* button) override;
+    void labelTextChanged (Label* label) override;
+    void comboBoxChanged (ComboBox* combobox) override;
+
+    void lookAndFeelChanged() override;
 
     /** Visualizer methods (not used) */
     void refreshState() {}
