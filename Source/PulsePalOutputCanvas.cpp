@@ -68,7 +68,7 @@ void PulsePalOutputCanvas::paint (Graphics& g)
 
 void PulsePalOutputCanvas::resized()
 {
-    pulsePalLabel->setBounds (0.01 * getWidth(), 0.02 * getHeight(), 0.5 * getWidth(), 0.04 * getHeight());
+    pulsePalLabel->setBounds (0.01 * getWidth(), 0.02 * getHeight(), 0.95 * getWidth(), 0.04 * getHeight());
 
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
@@ -392,42 +392,53 @@ void PulsePalOutputCanvas::initButtons()
 {
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
-        auto biph = std::make_unique<UtilityButton> ("biphasic");
+        auto biph = std::make_unique<UtilityButton> ("Biphasic");
         biph->setRadius (3.0f);
+        biph->setTooltip ("Biphasic mode");
+        biph->setFont (FontOptions (15.0f));
         biph->addListener (this);
         biph->setClickingTogglesState (true);
         biphasicButton[i] = std::move (biph);
         addAndMakeVisible (biphasicButton[i].get());
 
-        auto burst = std::make_unique<UtilityButton> ("burst");
+        auto burst = std::make_unique<UtilityButton> ("Burst");
         burst->setRadius (3.0f);
+        burst->setTooltip ("Burst mode");
+        burst->setFont (FontOptions (15.0f));
         burst->addListener (this);
         burst->setClickingTogglesState (true);
         burstButton[i] = std::move (burst);
         addAndMakeVisible (burstButton[i].get());
 
-        auto link21 = std::make_unique<UtilityButton> ("link trig 1");
+        auto link21 = std::make_unique<UtilityButton> ("Link Trig 1");
         link21->setRadius (3.0f);
+        link21->setTooltip ("Link trigger channel 1");
+        link21->setFont (FontOptions (15.0f));
         link21->addListener (this);
         link21->setClickingTogglesState (true);
         link2tr1Button[i] = std::move (link21);
         addAndMakeVisible (link2tr1Button[i].get());
 
-        auto link22 = std::make_unique<UtilityButton> ("link trig 2");
+        auto link22 = std::make_unique<UtilityButton> ("Link Trig 2");
         link22->setRadius (3.0f);
+        link22->setTooltip ("Link trigger channel 2");
+        link22->setFont (FontOptions (15.0f));
         link22->addListener (this);
         link22->setClickingTogglesState (true);
         link2tr2Button[i] = std::move (link22);
         addAndMakeVisible (link2tr2Button[i].get());
 
-        auto ttl = std::make_unique<UtilityButton> ("ttl");
+        auto ttl = std::make_unique<UtilityButton> ("TTL");
         ttl->setRadius (3.0f);
+        ttl->setFont (FontOptions (20.0f));
         ttl->addListener (this);
         ttlButton[i] = std::move (ttl);
         addAndMakeVisible (ttlButton[i].get());
 
-        auto continuous = std::make_unique<UtilityButton> ("continuous");
+        auto continuous = std::make_unique<UtilityButton> ("Continuous");
         continuous->setRadius (3.0f);
+        continuous->setTooltip ("Continuous mode");
+        continuous->setFont (FontOptions (20.0f));
         continuous->addListener (this);
         continuous->setClickingTogglesState (true);
         continuousButton[i] = std::move (continuous);
@@ -467,95 +478,94 @@ void PulsePalOutputCanvas::updateLabels (int i)
 
 void PulsePalOutputCanvas::initLabels()
 {
-    pulsePalLabel = std::make_unique<Label> ("s_pulsePal", "Pulse Pal Status: ");
-    pulsePalLabel->setFont (Font (40));
+    pulsePalLabel = std::make_unique<Label> ("s_pp", "Pulse Pal:");
+    pulsePalLabel->setColour (Label::textColourId, labelColour);
+    pulsePalLabel->setFont (FontOptions ("Inter", "Semi Bold", 40.0f));
     addAndMakeVisible (pulsePalLabel.get());
 
-    pulsePalLabel = std::make_unique<Label> ("s_pp", "Pulse Pal:");
-    pulsePalLabel->setFont (Font (40));
-    addAndMakeVisible (pulsePalLabel.get());
+    FontOptions labelFont ("Inter", "Regular", 18.0f);
 
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
         auto chan = std::make_unique<Label> ("s_phase1", "Channel " + String (i + 1));
-        chan->setFont (Font (30));
+        chan->setFont (FontOptions ("Inter", "Regular", 30.0f));
         channelLabel[i] = std::move (chan);
         addAndMakeVisible (channelLabel[i].get());
 
-        auto ph1 = std::make_unique<Label> ("s_phase1", "phase1 [ms]:");
-        ph1->setFont (Font (20));
+        auto ph1 = std::make_unique<Label> ("s_phase1", "Phase1 [ms]:");
+        ph1->setFont (labelFont);
         phase1Label[i] = std::move (ph1);
         addAndMakeVisible (phase1Label[i].get());
 
-        auto ph2 = std::make_unique<Label> ("s_phase2", "phase2 [ms]:");
-        ph2->setFont (Font (20));
+        auto ph2 = std::make_unique<Label> ("s_phase2", "Phase2 [ms]:");
+        ph2->setFont (labelFont);
         phase2Label[i] = std::move (ph2);
         addAndMakeVisible (phase2Label[i].get());
         phase2Label[i]->setVisible (false);
 
-        auto intph = std::make_unique<Label> ("s_interphase", "interphase [ms]:");
-        intph->setFont (Font (20));
+        auto intph = std::make_unique<Label> ("s_interphase", "Interphase [ms]:");
+        intph->setFont (labelFont);
         interphaseLabel[i] = std::move (intph);
         addAndMakeVisible (interphaseLabel[i].get());
         interphaseLabel[i]->setVisible (false);
 
-        auto v1 = std::make_unique<Label> ("s_v1", "voltage1 [V]:");
-        v1->setFont (Font (20));
+        auto v1 = std::make_unique<Label> ("s_v1", "Voltage1 [V]:");
+        v1->setFont (labelFont);
         voltage1Label[i] = std::move (v1);
         addAndMakeVisible (voltage1Label[i].get());
 
-        auto v2 = std::make_unique<Label> ("s_v2", "voltage2 [V]:");
-        v2->setFont (Font (20));
+        auto v2 = std::make_unique<Label> ("s_v2", "Voltage2 [V]:");
+        v2->setFont (labelFont);
         voltage2Label[i] = std::move (v2);
         addAndMakeVisible (voltage2Label[i].get());
         voltage2Label[i]->setVisible (false);
 
-        auto rv = std::make_unique<Label> ("s_v2", "rest voltage [V]:");
-        rv->setFont (Font (20));
+        auto rv = std::make_unique<Label> ("s_v2", "Rest Voltage [V]:");
+        rv->setFont (labelFont);
         restingVoltageLabel[i] = std::move (rv);
         addAndMakeVisible (restingVoltageLabel[i].get());
 
-        auto intpul = std::make_unique<Label> ("s_intpul", "interpulse [ms]:");
-        intpul->setFont (Font (20));
+        auto intpul = std::make_unique<Label> ("s_intpul", "Interpulse [ms]:");
+        intpul->setFont (labelFont);
         interpulseLabel[i] = std::move (intpul);
         addAndMakeVisible (interpulseLabel[i].get());
 
-        auto burst = std::make_unique<Label> ("s_train", "burst duration [ms]:");
-        burst->setFont (Font (20));
+        auto burst = std::make_unique<Label> ("s_train", "Burst Duration [ms]:");
+        burst->setFont (labelFont);
         burstDurationLabel[i] = std::move (burst);
         addAndMakeVisible (burstDurationLabel[i].get());
         burstDurationLabel[i]->setVisible (false);
 
-        auto burstint = std::make_unique<Label> ("s_train", "inter burst [ms]:");
-        burstint->setFont (Font (20));
+        auto burstint = std::make_unique<Label> ("s_train", "Inter Burst [ms]:");
+        burstint->setFont (labelFont);
         interburstLabel[i] = std::move (burstint);
         addAndMakeVisible (interburstLabel[i].get());
         interburstLabel[i]->setVisible (false);
 
-        auto train = std::make_unique<Label> ("s_train", "train duration [ms]:");
-        train->setFont (Font (20));
+        auto train = std::make_unique<Label> ("s_train", "Train Duration [ms]:");
+        train->setFont (labelFont);
         trainDurationLabel[i] = std::move (train);
         addAndMakeVisible (trainDurationLabel[i].get());
 
-        auto traindel = std::make_unique<Label> ("s_traindel", "train delay [ms]:");
-        traindel->setFont (Font (20));
+        auto traindel = std::make_unique<Label> ("s_traindel", "Train Delay [ms]:");
+        traindel->setFont (labelFont);
         trainDelayLabel[i] = std::move (traindel);
         addAndMakeVisible (trainDelayLabel[i].get());
 
-        auto trigmode = std::make_unique<Label> ("s_traindel", "trigger mode:");
-        trigmode->setFont (Font (20));
+        auto trigmode = std::make_unique<Label> ("s_traindel", "Trigger Mode:");
+        trigmode->setFont (labelFont);
         triggerModeLabel[i] = std::move (trigmode);
         addAndMakeVisible (triggerModeLabel[i].get());
 
         auto phEd1 = std::make_unique<Label> ("phase1", String (DEF_PHASE_DURATION));
-        phEd1->setFont (Font (20));
+        phEd1->setFont (labelFont);
         phEd1->setEditable (true);
         phase1EditLabel[i] = std::move (phEd1);
         phase1EditLabel[i]->addListener (this);
         addAndMakeVisible (phase1EditLabel[i].get());
 
         auto phEd2 = std::make_unique<Label> ("phase2", String (DEF_PHASE_DURATION));
-        phEd2->setFont (Font (20));
+        phEd2->setFont (labelFont);
         phEd2->setEditable (true);
         phase2EditLabel[i] = std::move (phEd2);
         phase2EditLabel[i]->addListener (this);
@@ -563,7 +573,7 @@ void PulsePalOutputCanvas::initLabels()
         phase2EditLabel[i]->setVisible (false);
 
         auto intphEd = std::make_unique<Label> ("interphase", String (DEF_INTER_PHASE));
-        intphEd->setFont (Font (20));
+        intphEd->setFont (labelFont);
         intphEd->setEditable (true);
         interphaseEditLabel[i] = std::move (intphEd);
         interphaseEditLabel[i]->addListener (this);
@@ -571,14 +581,14 @@ void PulsePalOutputCanvas::initLabels()
         interphaseEditLabel[i]->setVisible (false);
 
         auto vEd1 = std::make_unique<Label> ("v1", String (DEF_VOLTAGE));
-        vEd1->setFont (Font (20));
+        vEd1->setFont (labelFont);
         vEd1->setEditable (true);
         voltage1EditLabel[i] = std::move (vEd1);
         voltage1EditLabel[i]->addListener (this);
         addAndMakeVisible (voltage1EditLabel[i].get());
 
         auto vEd2 = std::make_unique<Label> ("v2", String (DEF_VOLTAGE));
-        vEd2->setFont (Font (20));
+        vEd2->setFont (labelFont);
         vEd2->setEditable (true);
         voltage2EditLabel[i] = std::move (vEd2);
         voltage2EditLabel[i]->addListener (this);
@@ -586,21 +596,21 @@ void PulsePalOutputCanvas::initLabels()
         voltage2EditLabel[i]->setVisible (false);
 
         auto rvEd = std::make_unique<Label> ("v2", String (0));
-        rvEd->setFont (Font (20));
+        rvEd->setFont (labelFont);
         rvEd->setEditable (true);
         restingVoltageEditLabel[i] = std::move (rvEd);
         restingVoltageEditLabel[i]->addListener (this);
         addAndMakeVisible (restingVoltageEditLabel[i].get());
 
         auto intpulEd = std::make_unique<Label> ("pul", String (DEF_INTER_PULSE));
-        intpulEd->setFont (Font (20));
+        intpulEd->setFont (labelFont);
         intpulEd->setEditable (true);
         interpulseEditLabel[i] = std::move (intpulEd);
         interpulseEditLabel[i]->addListener (this);
         addAndMakeVisible (interpulseEditLabel[i].get());
 
         auto burstEd = std::make_unique<Label> ("burst", String (0));
-        burstEd->setFont (Font (20));
+        burstEd->setFont (labelFont);
         burstEd->setEditable (true);
         burstDurationEditLabel[i] = std::move (burstEd);
         burstDurationEditLabel[i]->addListener (this);
@@ -608,7 +618,7 @@ void PulsePalOutputCanvas::initLabels()
         burstDurationEditLabel[i]->setVisible (false);
 
         auto burstintEd = std::make_unique<Label> ("train", String (0));
-        burstintEd->setFont (Font (20));
+        burstintEd->setFont (labelFont);
         burstintEd->setEditable (true);
         interburstEditLabel[i] = std::move (burstintEd);
         interburstEditLabel[i]->addListener (this);
@@ -616,14 +626,14 @@ void PulsePalOutputCanvas::initLabels()
         interburstEditLabel[i]->setVisible (false);
 
         auto traindelEd = std::make_unique<Label> ("train", String (0));
-        traindelEd->setFont (Font (20));
+        traindelEd->setFont (labelFont);
         traindelEd->setEditable (true);
         trainDelayEditLabel[i] = std::move (traindelEd);
         trainDelayEditLabel[i]->addListener (this);
         addAndMakeVisible (trainDelayEditLabel[i].get());
 
         auto trainEd = std::make_unique<Label> ("train", String (DEF_TRAINDURATION));
-        trainEd->setFont (Font (20));
+        trainEd->setFont (labelFont);
         trainEd->setEditable (true);
         trainDurationEditLabel[i] = std::move (trainEd);
         trainDurationEditLabel[i]->addListener (this);

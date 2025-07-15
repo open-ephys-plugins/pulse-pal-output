@@ -91,7 +91,7 @@ void PulsePalOutputEditor::loadVisualizerEditorParameters (XmlElement* xml)
 ChannelTriggerInterface::ChannelTriggerInterface (PulsePal* pp, PulsePalOutput* ppo, int chan)
     : pulsePal (pp), processor (ppo), isEnabled (true), channelNumber (chan), name (String (chan + 1)), m_triggerSelected (1), m_gateSelected (1)
 {
-    triggerButton = new UtilityButton ("trigger");
+    triggerButton = new UtilityButton ("Trigger");
     triggerButton->addListener (this);
     triggerButton->setRadius (3.0f);
     triggerButton->setBounds (5, 5, 90, 20);
