@@ -34,10 +34,8 @@
 
 PulsePalOutputCanvas::PulsePalOutputCanvas (PulsePalOutput* PulsePalOutput)
     : processor (PulsePalOutput), labelColour (Colour (200, 255, 0)), labelTextColour (Colour (255, 200, 0)), labelBackgroundColour (Colour (100, 100, 100))
-
 {
     initButtons();
-
     initLabels();
 }
 
@@ -115,7 +113,7 @@ void PulsePalOutputCanvas::buttonClicked (Button* button)
 {
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
-        if (button == biphasicButton[i])
+        if (button == biphasicButton[i].get())
         {
             if (button->getToggleState() == true)
             {
@@ -138,7 +136,7 @@ void PulsePalOutputCanvas::buttonClicked (Button* button)
                 voltage2EditLabel[i]->setVisible (false);
             }
         }
-        else if (button == burstButton[i])
+        else if (button == burstButton[i].get())
         {
             if (button->getToggleState() == true)
             {
@@ -165,21 +163,21 @@ void PulsePalOutputCanvas::buttonClicked (Button* button)
                 interburstEditLabel[i]->setVisible (false);
             }
         }
-        else if (button == link2tr1Button[i])
+        else if (button == link2tr1Button[i].get())
         {
             if (button->getToggleState() == true)
                 processor->setLinkTriggerChannel1 (i, 1);
             else if (button->getToggleState() == false)
                 processor->setLinkTriggerChannel1 (i, 0);
         }
-        else if (button == link2tr2Button[i])
+        else if (button == link2tr2Button[i].get())
         {
             if (button->getToggleState() == true)
                 processor->setLinkTriggerChannel2 (i, 1);
             else if (button->getToggleState() == false)
                 processor->setLinkTriggerChannel2 (i, 0);
         }
-        else if (button == ttlButton[i])
+        else if (button == ttlButton[i].get())
         {
             // set ttl channel i
             processor->setTTLsettings (i);
@@ -203,7 +201,7 @@ void PulsePalOutputCanvas::buttonClicked (Button* button)
                 burstButton[i]->setToggleState (false, dontSendNotification);
             }
         }
-        else if (button == continuousButton[i])
+        else if (button == continuousButton[i].get())
         {
             if (button->getToggleState() == true)
                 processor->setContinuous (i, 1);
@@ -225,7 +223,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
 {
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
-        if (label == phase1EditLabel[i])
+        if (label == phase1EditLabel[i].get())
         {
             // 100 - 3600*10e3 (3600 s)
             Value val = label->getTextValue();
@@ -241,7 +239,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == phase2EditLabel[i])
+        else if (label == phase2EditLabel[i].get())
         {
             // 100 - 3600000 (3600 s)
             Value val = label->getTextValue();
@@ -257,7 +255,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == interphaseEditLabel[i])
+        else if (label == interphaseEditLabel[i].get())
         {
             Value val = label->getTextValue();
             float value = float (my_round (float (val.getValue()) * 10) / 10); //only multiple of 100us
@@ -272,7 +270,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == voltage1EditLabel[i])
+        else if (label == voltage1EditLabel[i].get())
         {
             Value val = label->getTextValue();
             if (float (val.getValue()) >= 0 && float (val.getValue()) <= MAX_VOLTAGE)
@@ -285,7 +283,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == voltage2EditLabel[i])
+        else if (label == voltage2EditLabel[i].get())
         {
             Value val = label->getTextValue();
             if (float (val.getValue()) >= 0 && float (val.getValue()) <= MAX_VOLTAGE)
@@ -298,7 +296,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == burstDurationEditLabel[i])
+        else if (label == burstDurationEditLabel[i].get())
         {
             Value val = label->getTextValue();
             float value = float (my_round (float (val.getValue()) * 10) / 10); //only multiple of 100us
@@ -313,7 +311,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == interburstEditLabel[i])
+        else if (label == interburstEditLabel[i].get())
         {
             Value val = label->getTextValue();
             float value = float (my_round (float (val.getValue()) * 10) / 10); //only multiple of 100us
@@ -328,7 +326,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == interpulseEditLabel[i])
+        else if (label == interpulseEditLabel[i].get())
         {
             Value val = label->getTextValue();
             float value = float (my_round (float (val.getValue()) * 10) / 10); //only multiple of 100us
@@ -343,7 +341,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == trainDurationEditLabel[i])
+        else if (label == trainDurationEditLabel[i].get())
         {
             Value val = label->getTextValue();
             float value = float (my_round (float (val.getValue()) * 10) / 10); //only multiple of 100us
@@ -358,7 +356,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
                 label->setText ("", dontSendNotification);
             }
         }
-        else if (label == trainDelayEditLabel[i])
+        else if (label == trainDelayEditLabel[i].get())
         {
             Value val = label->getTextValue();
             float value = float (my_round (float (val.getValue()) * 10) / 10); //only multiple of 100us
@@ -386,7 +384,7 @@ void PulsePalOutputCanvas::labelTextChanged (Label* label)
 void PulsePalOutputCanvas::comboBoxChanged (ComboBox* combobox)
 {
     for (int i = 0; i < PULSEPALCHANNELS; i++)
-        if (combobox == triggerMode[i])
+        if (combobox == triggerMode[i].get())
             processor->setTriggerMode (i, combobox->getSelectedId() - 1);
 }
 
@@ -394,56 +392,54 @@ void PulsePalOutputCanvas::initButtons()
 {
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
-        ScopedPointer<UtilityButton> biph = new UtilityButton ("biphasic");
+        auto biph = std::make_unique<UtilityButton>("biphasic");
         biph->setRadius (3.0f);
         biph->addListener (this);
         biph->setClickingTogglesState (true);
-        biphasicButton[i] = biph;
-        addAndMakeVisible (biphasicButton[i]);
+        biphasicButton[i] = std::move(biph);
+        addAndMakeVisible (biphasicButton[i].get());
 
-        ScopedPointer<UtilityButton> burst = new UtilityButton ("burst");
+        auto burst = std::make_unique<UtilityButton>("burst");
         burst->setRadius (3.0f);
         burst->addListener (this);
         burst->setClickingTogglesState (true);
-        burstButton[i] = burst;
-        addAndMakeVisible (burstButton[i]);
+        burstButton[i] = std::move(burst);
+        addAndMakeVisible (burstButton[i].get());
 
-        ScopedPointer<UtilityButton> link21 = new UtilityButton ("link trig 1");
+        auto link21 = std::make_unique<UtilityButton>("link trig 1");
         link21->setRadius (3.0f);
         link21->addListener (this);
         link21->setClickingTogglesState (true);
-        link2tr1Button[i] = link21;
-        addAndMakeVisible (link2tr1Button[i]);
+        link2tr1Button[i] = std::move(link21);
+        addAndMakeVisible (link2tr1Button[i].get());
 
-        ScopedPointer<UtilityButton> link22 = new UtilityButton ("link trig 2");
+        auto link22 = std::make_unique<UtilityButton>("link trig 2");
         link22->setRadius (3.0f);
         link22->addListener (this);
         link22->setClickingTogglesState (true);
-        link2tr2Button[i] = link22;
-        addAndMakeVisible (link2tr2Button[i]);
+        link2tr2Button[i] = std::move(link22);
+        addAndMakeVisible (link2tr2Button[i].get());
 
-        ScopedPointer<UtilityButton> ttl = new UtilityButton ("ttl");
+        auto ttl = std::make_unique<UtilityButton>("ttl");
         ttl->setRadius (3.0f);
         ttl->addListener (this);
-        ttlButton[i] = ttl;
-        addAndMakeVisible (ttlButton[i]);
+        ttlButton[i] = std::move(ttl);
+        addAndMakeVisible (ttlButton[i].get());
 
-        ScopedPointer<UtilityButton> continuous = new UtilityButton ("continuous");
+        auto continuous = std::make_unique<UtilityButton>("continuous");
         continuous->setRadius (3.0f);
         continuous->addListener (this);
         continuous->setClickingTogglesState (true);
-        continuousButton[i] = continuous;
-        addAndMakeVisible (continuousButton[i]);
+        continuousButton[i] = std::move(continuous);
+        addAndMakeVisible (continuousButton[i].get());
 
-        ScopedPointer<ComboBox> mode = new ComboBox();
+        auto mode = std::make_unique<ComboBox>();
         mode->addListener (this);
-        for (int i = 0; i < 3; i++)
-            mode->addItem (String (i), i + 1);
-
-        // user-visible channels
+        for (int j = 0; j < 3; j++)
+            mode->addItem (String (j), j + 1);
         mode->setSelectedId (processor->getTriggerMode (i) + 1, dontSendNotification);
-        triggerMode[i] = mode;
-        addAndMakeVisible (triggerMode[i]);
+        triggerMode[i] = std::move(mode);
+        addAndMakeVisible (triggerMode[i].get());
 
         if (processor->getIsBiphasic (i))
             biphasicButton[i]->triggerClick();
@@ -471,203 +467,203 @@ void PulsePalOutputCanvas::updateLabels (int i)
 
 void PulsePalOutputCanvas::initLabels()
 {
-    pulsePalLabel = new Label ("s_pulsePal", "Pulse Pal Status: ");
+    pulsePalLabel = std::make_unique<Label>("s_pulsePal", "Pulse Pal Status: ");
     pulsePalLabel->setFont (Font (40));
     pulsePalLabel->setColour (Label::textColourId, labelColour);
-    addAndMakeVisible (pulsePalLabel);
+    addAndMakeVisible (pulsePalLabel.get());
 
-    pulsePalLabel = new Label ("s_pp", "Pulse Pal:");
+    pulsePalLabel = std::make_unique<Label>("s_pp", "Pulse Pal:");
     pulsePalLabel->setFont (Font (40));
     pulsePalLabel->setColour (Label::textColourId, labelColour);
-    addAndMakeVisible (pulsePalLabel);
+    addAndMakeVisible (pulsePalLabel.get());
 
     for (int i = 0; i < PULSEPALCHANNELS; i++)
     {
-        ScopedPointer<Label> chan = new Label ("s_phase1", "Channel " + String (i + 1));
+        auto chan = std::make_unique<Label>("s_phase1", "Channel " + String (i + 1));
         chan->setFont (Font (30));
         chan->setColour (Label::textColourId, labelColour);
-        channelLabel[i] = chan;
-        addAndMakeVisible (channelLabel[i]);
+        channelLabel[i] = std::move(chan);
+        addAndMakeVisible (channelLabel[i].get());
 
-        ScopedPointer<Label> ph1 = new Label ("s_phase1", "phase1 [ms]:");
+        auto ph1 = std::make_unique<Label>("s_phase1", "phase1 [ms]:");
         ph1->setFont (Font (20));
         ph1->setColour (Label::textColourId, labelColour);
-        phase1Label[i] = ph1;
-        addAndMakeVisible (phase1Label[i]);
+        phase1Label[i] = std::move(ph1);
+        addAndMakeVisible (phase1Label[i].get());
 
-        ScopedPointer<Label> ph2 = new Label ("s_phase2", "phase2 [ms]:");
+        auto ph2 = std::make_unique<Label>("s_phase2", "phase2 [ms]:");
         ph2->setFont (Font (20));
         ph2->setColour (Label::textColourId, labelColour);
-        phase2Label[i] = ph2;
-        addAndMakeVisible (phase2Label[i]);
+        phase2Label[i] = std::move(ph2);
+        addAndMakeVisible (phase2Label[i].get());
         phase2Label[i]->setVisible (false);
 
-        ScopedPointer<Label> intph = new Label ("s_interphase", "interphase [ms]:");
+        auto intph = std::make_unique<Label>("s_interphase", "interphase [ms]:");
         intph->setFont (Font (20));
         intph->setColour (Label::textColourId, labelColour);
-        interphaseLabel[i] = intph;
-        addAndMakeVisible (interphaseLabel[i]);
+        interphaseLabel[i] = std::move(intph);
+        addAndMakeVisible (interphaseLabel[i].get());
         interphaseLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> v1 = new Label ("s_v1", "voltage1 [V]:");
+        auto v1 = std::make_unique<Label>("s_v1", "voltage1 [V]:");
         v1->setFont (Font (20));
         v1->setColour (Label::textColourId, labelColour);
-        voltage1Label[i] = v1;
-        addAndMakeVisible (voltage1Label[i]);
+        voltage1Label[i] = std::move(v1);
+        addAndMakeVisible (voltage1Label[i].get());
 
-        ScopedPointer<Label> v2 = new Label ("s_v2", "voltage2 [V]:");
+        auto v2 = std::make_unique<Label>("s_v2", "voltage2 [V]:");
         v2->setFont (Font (20));
         v2->setColour (Label::textColourId, labelColour);
-        voltage2Label[i] = v2;
-        addAndMakeVisible (voltage2Label[i]);
+        voltage2Label[i] = std::move(v2);
+        addAndMakeVisible (voltage2Label[i].get());
         voltage2Label[i]->setVisible (false);
 
-        ScopedPointer<Label> rv = new Label ("s_v2", "rest voltage [V]:");
+        auto rv = std::make_unique<Label>("s_v2", "rest voltage [V]:");
         rv->setFont (Font (20));
         rv->setColour (Label::textColourId, labelColour);
-        restingVoltageLabel[i] = rv;
-        addAndMakeVisible (restingVoltageLabel[i]);
+        restingVoltageLabel[i] = std::move(rv);
+        addAndMakeVisible (restingVoltageLabel[i].get());
 
-        ScopedPointer<Label> intpul = new Label ("s_intpul", "interpulse [ms]:");
+        auto intpul = std::make_unique<Label>("s_intpul", "interpulse [ms]:");
         intpul->setFont (Font (20));
         intpul->setColour (Label::textColourId, labelColour);
-        interpulseLabel[i] = intpul;
-        addAndMakeVisible (interpulseLabel[i]);
+        interpulseLabel[i] = std::move(intpul);
+        addAndMakeVisible (interpulseLabel[i].get());
 
-        ScopedPointer<Label> burst = new Label ("s_train", "burst duration [ms]:");
+        auto burst = std::make_unique<Label>("s_train", "burst duration [ms]:");
         burst->setFont (Font (20));
         burst->setColour (Label::textColourId, labelColour);
-        burstDurationLabel[i] = burst;
-        addAndMakeVisible (burstDurationLabel[i]);
+        burstDurationLabel[i] = std::move(burst);
+        addAndMakeVisible (burstDurationLabel[i].get());
         burstDurationLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> burstint = new Label ("s_train", "inter burst [ms]:");
+        auto burstint = std::make_unique<Label>("s_train", "inter burst [ms]:");
         burstint->setFont (Font (20));
         burstint->setColour (Label::textColourId, labelColour);
-        interburstLabel[i] = burstint;
-        addAndMakeVisible (interburstLabel[i]);
+        interburstLabel[i] = std::move(burstint);
+        addAndMakeVisible (interburstLabel[i].get());
         interburstLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> train = new Label ("s_train", "train duration [ms]:");
+        auto train = std::make_unique<Label>("s_train", "train duration [ms]:");
         train->setFont (Font (20));
         train->setColour (Label::textColourId, labelColour);
-        trainDurationLabel[i] = train;
-        addAndMakeVisible (trainDurationLabel[i]);
+        trainDurationLabel[i] = std::move(train);
+        addAndMakeVisible (trainDurationLabel[i].get());
 
-        ScopedPointer<Label> traindel = new Label ("s_traindel", "train delay [ms]:");
+        auto traindel = std::make_unique<Label>("s_traindel", "train delay [ms]:");
         traindel->setFont (Font (20));
         traindel->setColour (Label::textColourId, labelColour);
-        trainDelayLabel[i] = traindel;
-        addAndMakeVisible (trainDelayLabel[i]);
+        trainDelayLabel[i] = std::move(traindel);
+        addAndMakeVisible (trainDelayLabel[i].get());
 
-        ScopedPointer<Label> trigmode = new Label ("s_traindel", "trigger mode:");
+        auto trigmode = std::make_unique<Label>("s_traindel", "trigger mode:");
         trigmode->setFont (Font (20));
         trigmode->setColour (Label::textColourId, labelColour);
-        triggerModeLabel[i] = trigmode;
-        addAndMakeVisible (triggerModeLabel[i]);
+        triggerModeLabel[i] = std::move(trigmode);
+        addAndMakeVisible (triggerModeLabel[i].get());
 
-        ScopedPointer<Label> phEd1 = new Label ("phase1", String (DEF_PHASE_DURATION));
+        auto phEd1 = std::make_unique<Label>("phase1", String (DEF_PHASE_DURATION));
         phEd1->setFont (Font (20));
         phEd1->setColour (Label::textColourId, labelTextColour);
         phEd1->setColour (Label::backgroundColourId, labelBackgroundColour);
         phEd1->setEditable (true);
-        phase1EditLabel[i] = phEd1;
+        phase1EditLabel[i] = std::move(phEd1);
         phase1EditLabel[i]->addListener (this);
-        addAndMakeVisible (phase1EditLabel[i]);
+        addAndMakeVisible (phase1EditLabel[i].get());
 
-        ScopedPointer<Label> phEd2 = new Label ("phase2", String (DEF_PHASE_DURATION));
+        auto phEd2 = std::make_unique<Label>("phase2", String (DEF_PHASE_DURATION));
         phEd2->setFont (Font (20));
         phEd2->setColour (Label::textColourId, labelTextColour);
         phEd2->setColour (Label::backgroundColourId, labelBackgroundColour);
         phEd2->setEditable (true);
-        phase2EditLabel[i] = phEd2;
+        phase2EditLabel[i] = std::move(phEd2);
         phase2EditLabel[i]->addListener (this);
-        addAndMakeVisible (phase2EditLabel[i]);
+        addAndMakeVisible (phase2EditLabel[i].get());
         phase2EditLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> intphEd = new Label ("interphase", String (DEF_INTER_PHASE));
+        auto intphEd = std::make_unique<Label>("interphase", String (DEF_INTER_PHASE));
         intphEd->setFont (Font (20));
         intphEd->setColour (Label::textColourId, labelTextColour);
         intphEd->setColour (Label::backgroundColourId, labelBackgroundColour);
         intphEd->setEditable (true);
-        interphaseEditLabel[i] = intphEd;
+        interphaseEditLabel[i] = std::move(intphEd);
         interphaseEditLabel[i]->addListener (this);
-        addAndMakeVisible (interphaseEditLabel[i]);
+        addAndMakeVisible (interphaseEditLabel[i].get());
         interphaseEditLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> vEd1 = new Label ("v1", String (DEF_VOLTAGE));
+        auto vEd1 = std::make_unique<Label>("v1", String (DEF_VOLTAGE));
         vEd1->setFont (Font (20));
         vEd1->setColour (Label::textColourId, labelTextColour);
         vEd1->setColour (Label::backgroundColourId, labelBackgroundColour);
         vEd1->setEditable (true);
-        voltage1EditLabel[i] = vEd1;
+        voltage1EditLabel[i] = std::move(vEd1);
         voltage1EditLabel[i]->addListener (this);
-        addAndMakeVisible (voltage1EditLabel[i]);
+        addAndMakeVisible (voltage1EditLabel[i].get());
 
-        ScopedPointer<Label> vEd2 = new Label ("v2", String (DEF_VOLTAGE));
+        auto vEd2 = std::make_unique<Label>("v2", String (DEF_VOLTAGE));
         vEd2->setFont (Font (20));
         vEd2->setColour (Label::textColourId, labelTextColour);
         vEd2->setColour (Label::backgroundColourId, labelBackgroundColour);
         vEd2->setEditable (true);
-        voltage2EditLabel[i] = vEd2;
+        voltage2EditLabel[i] = std::move(vEd2);
         voltage2EditLabel[i]->addListener (this);
-        addAndMakeVisible (voltage2EditLabel[i]);
+        addAndMakeVisible (voltage2EditLabel[i].get());
         voltage2EditLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> rvEd = new Label ("v2", String (0));
+        auto rvEd = std::make_unique<Label>("v2", String (0));
         rvEd->setFont (Font (20));
         rvEd->setColour (Label::textColourId, labelTextColour);
         rvEd->setColour (Label::backgroundColourId, labelBackgroundColour);
         rvEd->setEditable (true);
-        restingVoltageEditLabel[i] = rvEd;
+        restingVoltageEditLabel[i] = std::move(rvEd);
         restingVoltageEditLabel[i]->addListener (this);
-        addAndMakeVisible (restingVoltageEditLabel[i]);
+        addAndMakeVisible (restingVoltageEditLabel[i].get());
 
-        ScopedPointer<Label> intpulEd = new Label ("pul", String (DEF_INTER_PULSE));
+        auto intpulEd = std::make_unique<Label>("pul", String (DEF_INTER_PULSE));
         intpulEd->setFont (Font (20));
         intpulEd->setColour (Label::textColourId, labelTextColour);
         intpulEd->setColour (Label::backgroundColourId, labelBackgroundColour);
         intpulEd->setEditable (true);
-        interpulseEditLabel[i] = intpulEd;
+        interpulseEditLabel[i] = std::move(intpulEd);
         interpulseEditLabel[i]->addListener (this);
-        addAndMakeVisible (interpulseEditLabel[i]);
+        addAndMakeVisible (interpulseEditLabel[i].get());
 
-        ScopedPointer<Label> burstEd = new Label ("burst", String (0));
+        auto burstEd = std::make_unique<Label>("burst", String (0));
         burstEd->setFont (Font (20));
         burstEd->setColour (Label::textColourId, labelTextColour);
         burstEd->setColour (Label::backgroundColourId, labelBackgroundColour);
         burstEd->setEditable (true);
-        burstDurationEditLabel[i] = burstEd;
+        burstDurationEditLabel[i] = std::move(burstEd);
         burstDurationEditLabel[i]->addListener (this);
-        addAndMakeVisible (burstDurationEditLabel[i]);
+        addAndMakeVisible (burstDurationEditLabel[i].get());
         burstDurationEditLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> burstintEd = new Label ("train", String (0));
+        auto burstintEd = std::make_unique<Label>("train", String (0));
         burstintEd->setFont (Font (20));
         burstintEd->setColour (Label::textColourId, labelTextColour);
         burstintEd->setColour (Label::backgroundColourId, labelBackgroundColour);
         burstintEd->setEditable (true);
-        interburstEditLabel[i] = burstintEd;
+        interburstEditLabel[i] = std::move(burstintEd);
         interburstEditLabel[i]->addListener (this);
-        addAndMakeVisible (interburstEditLabel[i]);
+        addAndMakeVisible (interburstEditLabel[i].get());
         interburstEditLabel[i]->setVisible (false);
 
-        ScopedPointer<Label> traindelEd = new Label ("train", String (0));
+        auto traindelEd = std::make_unique<Label>("train", String (0));
         traindelEd->setFont (Font (20));
         traindelEd->setColour (Label::textColourId, labelTextColour);
         traindelEd->setColour (Label::backgroundColourId, labelBackgroundColour);
         traindelEd->setEditable (true);
-        trainDelayEditLabel[i] = traindelEd;
+        trainDelayEditLabel[i] = std::move(traindelEd);
         trainDelayEditLabel[i]->addListener (this);
-        addAndMakeVisible (trainDelayEditLabel[i]);
+        addAndMakeVisible (trainDelayEditLabel[i].get());
 
-        ScopedPointer<Label> trainEd = new Label ("train", String (DEF_TRAINDURATION));
+        auto trainEd = std::make_unique<Label>("train", String (DEF_TRAINDURATION));
         trainEd->setFont (Font (20));
         trainEd->setColour (Label::textColourId, labelTextColour);
         trainEd->setColour (Label::backgroundColourId, labelBackgroundColour);
         trainEd->setEditable (true);
-        trainDurationEditLabel[i] = trainEd;
+        trainDurationEditLabel[i] = std::move(trainEd);
         trainDurationEditLabel[i]->addListener (this);
-        addAndMakeVisible (trainDurationEditLabel[i]);
+        addAndMakeVisible (trainDurationEditLabel[i].get());
     }
 }

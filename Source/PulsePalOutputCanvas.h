@@ -89,43 +89,43 @@ private:
     PulsePalOutput* processor;
 
     // displays Pulse Pal status
-    ScopedPointer<Label> pulsePalLabel;
+    std::unique_ptr<Label> pulsePalLabel;
 
     // all components are arrays for the 4 channels
-    ScopedPointer<UtilityButton> burstButton[PULSEPALCHANNELS];
-    ScopedPointer<UtilityButton> biphasicButton[PULSEPALCHANNELS];
-    ScopedPointer<UtilityButton> ttlButton[PULSEPALCHANNELS];
-    ScopedPointer<UtilityButton> link2tr1Button[PULSEPALCHANNELS];
-    ScopedPointer<UtilityButton> link2tr2Button[PULSEPALCHANNELS];
-    ScopedPointer<UtilityButton> continuousButton[PULSEPALCHANNELS];
-    ScopedPointer<ComboBox> triggerMode[PULSEPALCHANNELS];
+    std::unique_ptr<UtilityButton> burstButton[PULSEPALCHANNELS];
+    std::unique_ptr<UtilityButton> biphasicButton[PULSEPALCHANNELS];
+    std::unique_ptr<UtilityButton> ttlButton[PULSEPALCHANNELS];
+    std::unique_ptr<UtilityButton> link2tr1Button[PULSEPALCHANNELS];
+    std::unique_ptr<UtilityButton> link2tr2Button[PULSEPALCHANNELS];
+    std::unique_ptr<UtilityButton> continuousButton[PULSEPALCHANNELS];
+    std::unique_ptr<ComboBox> triggerMode[PULSEPALCHANNELS];
 
-    ScopedPointer<Label> channelLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> phase1Label[PULSEPALCHANNELS];
-    ScopedPointer<Label> phase2Label[PULSEPALCHANNELS];
-    ScopedPointer<Label> interphaseLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> voltage1Label[PULSEPALCHANNELS];
-    ScopedPointer<Label> voltage2Label[PULSEPALCHANNELS];
-    ScopedPointer<Label> restingVoltageLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> interpulseLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> burstDurationLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> interburstLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> repetitionsLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> trainDurationLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> trainDelayLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> triggerModeLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> phase1EditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> phase2EditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> interphaseEditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> voltage1EditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> voltage2EditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> restingVoltageEditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> interpulseEditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> burstDurationEditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> interburstEditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> repetitionsEditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> trainDurationEditLabel[PULSEPALCHANNELS];
-    ScopedPointer<Label> trainDelayEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> channelLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> phase1Label[PULSEPALCHANNELS];
+    std::unique_ptr<Label> phase2Label[PULSEPALCHANNELS];
+    std::unique_ptr<Label> interphaseLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> voltage1Label[PULSEPALCHANNELS];
+    std::unique_ptr<Label> voltage2Label[PULSEPALCHANNELS];
+    std::unique_ptr<Label> restingVoltageLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> interpulseLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> burstDurationLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> interburstLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> repetitionsLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> trainDurationLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> trainDelayLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> triggerModeLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> phase1EditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> phase2EditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> interphaseEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> voltage1EditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> voltage2EditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> restingVoltageEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> interpulseEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> burstDurationEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> interburstEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> repetitionsEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> trainDurationEditLabel[PULSEPALCHANNELS];
+    std::unique_ptr<Label> trainDelayEditLabel[PULSEPALCHANNELS];
 
     Colour labelColour;
     Colour labelTextColour;
